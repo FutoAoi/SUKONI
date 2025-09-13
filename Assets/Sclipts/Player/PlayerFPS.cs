@@ -32,4 +32,9 @@ public class PlayerFPS : MonoBehaviour
         _mainCamera.transform.localRotation = Quaternion.Euler(_clampYRot, 0f, 0f);
         transform.localRotation = _playerRot;
     }
+
+    public void Recoil(float recoil)
+    {
+        _clampYRot -= recoil;
+    }
 }

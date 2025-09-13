@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
         _y = Input.GetAxis("Vertical");
 
         _move = transform.right * _x + transform.forward * _y;
+        _move.Normalize();
 
         _rb.MovePosition( _rb.position + _move * _playerSpeed * Time.deltaTime );
     }

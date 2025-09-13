@@ -8,10 +8,13 @@ public class WeponController : MonoBehaviour
     [SerializeField] float _reloadTime;
     [SerializeField] Transform _shootPos;
     [SerializeField] GameObject _bullets;
+    [SerializeField] PlayerFPS _fps;
 
     bool _canNotShoot = false;
     bool _isReloading = false;
+    bool _isADS = false;
     float _remainBullets;
+    [SerializeField] Animator _an;
 
     public float MaxBullets => _maxBullets;
     public float RemainBullets => _remainBullets;
@@ -22,10 +25,22 @@ public class WeponController : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetMouseButton(1))
+        {
+            _isADS = true;
+        }
+        else
+        {
+            _isADS = false;
+        }
+
+        _an.SetBool("IsADS", _isADS);
+
         if(Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(Reload());
         }
+
         if(Input.GetMouseButton(0) && !_canNotShoot && _remainBullets > 0 && !_isReloading)
         {
             Shoot();
@@ -37,6 +52,7 @@ public class WeponController : MonoBehaviour
     {
         _remainBullets--;
         Instantiate(_bullets, _shootPos.position, _shootPos.rotation);
+        _fps.Recoil(1f);
     }
 
     IEnumerator Reload()
