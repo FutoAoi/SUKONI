@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyData : MonoBehaviour
+[CreateAssetMenu(fileName = "NewEnemy", menuName = "Game/Enemy")]
+public class EnemyData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] string _enemyName;
+    [SerializeField] float _maxHp;
 }

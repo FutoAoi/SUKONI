@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "NewWeapon", menuName = "Game/Weapon")]
+[CreateAssetMenu(fileName = "NewWeapon", menuName = "Item/Weapon")]
 public class WeponData : ItemData
 {
     [SerializeField] int Damege;
