@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7424d2c21ae52434b911dbc344c1cfb8, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  _enemyName: 
-  _maxHp: 300
+  _enemyName: fly
+  _maxHp: 50
+  _attackPower: 20
+  _attackSpan: 10

@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: 
   _icon: {fileID: 0}
-  Damege: 0
-  rate: 0
+  _damege: 10
+  _shootRate: 0.1
+  _maxBullets: 50
+  _reloadTime: 1
+  _xrecoil: 2
+  _yrecoil: 2
+  _range: 100

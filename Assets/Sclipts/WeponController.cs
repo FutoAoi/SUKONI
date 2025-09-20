@@ -1,33 +1,28 @@
 using System.Collections;
-using System.Drawing;
 using UnityEngine;
 
 public class WeponController : MonoBehaviour
 {
-    [SerializeField] float _shootRate;
-    [SerializeField] float _maxBullets;
-    [SerializeField] float _reloadTime;
-    [SerializeField] float _xrecoil, _yrecoil;
-    [SerializeField] Transform _shootPos;
-    [SerializeField] GameObject _bullets;
-    [SerializeField] PlayerFPS _fps;
+    [Header("•Šíƒf[ƒ^")]
+    [SerializeField] WeponData _wepon;
+    [Header("‚»‚Ì‘¼")]
     [SerializeField] Transform _muzzlePoint;
+    [SerializeField] PlayerFPS _fps;
     [SerializeField] Camera _mainCamera;
-    float _range = 100f;
-    float _damage = 10f;
     [SerializeField] LineRenderer _lineRendererPrefab;
+    [SerializeField] Animator _an;
+
+    float _remainBullets;
 
     bool _canNotShoot = false;
     bool _isReloading = false;
     bool _isADS = false;
-    float _remainBullets;
-    [SerializeField] Animator _an;
 
-    public float MaxBullets => _maxBullets;
+    public float MaxBullets => _wepon.MaxBullets;
     public float RemainBullets => _remainBullets;
     void Start()
     {
-        _remainBullets = _maxBullets;
+        _remainBullets = _wepon.MaxBullets;
     }
 
     void Update()
@@ -58,40 +53,39 @@ public class WeponController : MonoBehaviour
     void Shoot()
     {
         _remainBullets--;
-        //Instantiate(_bullets, _shootPos.position, _shootPos.rotation);
         RaycastHit hit;
         Vector3 hitpoint;
-        if(Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward, out hit, _range))
+        if(Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward, out hit, _wepon.Range))
         {
             hitpoint = hit.point;
 
-            EnemyStatus _target = hit.transform.GetComponent<EnemyStatus>();
+            EnemyBase _target = hit.transform.GetComponent<EnemyBase>();
             if(_target != null)
             {
-                _target.Damage(_damage);
-                DamagePopup.Create(hitpoint, _damage);
+                _target.Damage(_wepon.Damage);
+                DamagePopup.Create(hitpoint, _wepon.Damage);
             }
         }
         else
         {
-            hitpoint = _mainCamera.transform.position + _mainCamera.transform.forward * _range;
+            hitpoint = _mainCamera.transform.position + _mainCamera.transform.forward * _wepon.Range;
         }
         StartCoroutine(ShowBulletLine(hitpoint));
-        _fps.Recoil(_xrecoil, _yrecoil);
+        _fps.Recoil(_wepon.Xrecoil, _wepon.Yrecoil);
     }
 
     IEnumerator Reload()
     {
         _isReloading = true;
-        yield return new WaitForSeconds(_reloadTime);
-        _remainBullets = _maxBullets;
+        yield return new WaitForSeconds(_wepon.ReloadTime);
+        _remainBullets = _wepon.MaxBullets;
         _isReloading = false;
     }
 
     IEnumerator WaitSpan()
     {
         _canNotShoot = true;
-        yield return new WaitForSeconds(_shootRate);
+        yield return new WaitForSeconds(_wepon.ShootRate);
         _canNotShoot = false;
     }
 
